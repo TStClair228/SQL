@@ -1,0 +1,25 @@
+SELECT mrn, name, referral_date, referral_account, referral_physician FROM may_referrals WHERE referral_account = "Palliative Care of Lake Cumberland";
+
+SELECT * FROM may_admits WHERE diagnosis GLOB 'C*';
+
+SELECT AVG(dispo_day) FROM may_admits;
+
+SELECT mrn, name, diagnosis, military_branch FROM may_admits
+INNER JOIN va_tracking ON va_tracking.name = may_admits.name;
+
+SELECT * FROM may_referrals WHERE attending != "RYAN, CORY" AND attending != "Southard, Stephanie";
+
+SELECT * FROM may_admits WHERE current_benefit_period > 1;
+
+SELECT mrn, name, referral_date FROM may_referrals WHERE referral_date between '5/05/2023' AND '5/15/2023' ORDER BY referral_date DESC;
+
+SELECT referral_account FROM may_referrals WHERE referral_date = '5/25/2023';
+
+SELECT name, diagnosis FROM may_admits WHERE diagnosis LIKE 'J%';
+
+SELECT name, diagnosis FROM may_admits WHERE diagnosis LIKE '%neoplasm%';
+
+SELECT count(distinct referral_account) FROM may_referrals; 
+
+SELECT referral_account FROM may_referrals GROUP BY referral_account;
+
