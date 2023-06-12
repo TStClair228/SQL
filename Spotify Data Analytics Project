@@ -36,3 +36,17 @@ SELECT track_name, artist_name, energy
 FROM spotifydata
 ORDER BY popularity desc
 LIMIT 10;
+
+#Creating a CTE with Spotify Data
+WITH popularity_average_CTE AS (
+SELECT spotifydata.artist_name,
+AVG(spotifydata.popularity) AS average_popularity
+FROM SpotifyData  
+GROUP BY spotifydata.artist_name
+)
+ 
+SELECT  artist_name,
+        average_popularity,
+        'Top Star' AS tag
+FROM popularity_average_CTE
+WHERE average_popularity>=90;
