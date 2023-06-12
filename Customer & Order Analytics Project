@@ -1,0 +1,29 @@
+#These queries from are to answer questions from Charlotte Chaze BreakIntoTech Data Analytics Certificate Program: 1.8 - 1.11 Customer & Order Analytics Project
+
+SELECT count (orderID) FROM JanSales WHERE product = "iPhone";
+
+SELECT orderID, acctnum FROM FebSales
+INNER JOIN customers ON customers.order_id = FebSales.orderID;
+
+SELECT SUM(quantity)*price as revenue, Product FROM JanSales GROUP BY Product;
+
+SELECT SUM(price), Product, quantity, location FROM FebSales WHERE location = "548 Lincoln St, Seattle, WA 98101";
+
+select count(distinct cust.acctnum), avg(quantity*price) FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers cust ON FEB.orderid=cust.order_id
+WHERE Feb.Quantity>2 AND length(orderid) = 6 AND orderid <> 'Order ID';
+
+SELECT count(orderID), location FROM JanSales WHERE location LIKE '%NY%' GROUP BY location HAVING count(orderID) > 2;
+
+SELECT product, quantity FROM FebSales WHERE product like '%Headphones%' GROUP BY product;
+
+SELECT avg(quantity*price) FROM FebSales
+LEFT JOIN customers ON FebSales.orderid = customers.order_id
+WHERE length(orderid) = 6 AND orderid <> 'Order ID';
+
+SELECT SUM(quantity)/count(customers.acctnum) FROM FebSales
+LEFT JOIN customers ON FebSales.orderID = customers.order_id
+WHERE length(orderid) = 6 AND orderid <> 'Order ID';
+
+SELECT product, SUM(quantity*price) FROM JanSales GROUP BY product ORDER BY SUM(quantity*price) DESC LIMIT 1;
+
