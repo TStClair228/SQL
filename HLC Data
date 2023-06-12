@@ -1,25 +1,83 @@
+CREATE DATABASE "HLC";
+CREATE TABLE may_admits (
+  mrn REAL
+ , name TEXT
+ , office TEXT
+ , admission TEXT
+ , dispo_day INTEGER
+ , diagnosis TEXT
+ , dob TEXT
+ , age INTEGER
+ , race TEXT
+ , gender TEXT
+ , religion TEXT
+ , physician TEXT
+ , county TEXT
+ , initial_benefit_period INTEGER
+ , current_benefit_period INTEGER
+ , hospice_payor TEXT
+ , hospice_payor_name TEXT
+ , hospice_payor_number TEXT
+ , secondary_hospice_payor TEXT
+ , secondary_hospice_payor_name TEXT
+ , secondary_hospice_payor_number TEXT
+);
+ 
+ CREATE TABLE may_referrals (
+  mrn REAL
+  , name TEXT
+  , dob TEXT
+  , referral_date TEXT
+  , home_county TEXT
+  , attending TEXT
+  , referral_account TEXT
+  , referral_physician TEXT
+  , admission TEXT
+  , discharge TEXT
+  , cancelled TEXT
+  , cancelled_note TEXT
+  , date_of_death TEXT
+ );
+  
+ CREATE TABLE VA_tracking (
+  mrn REAL
+  , name TEXT
+  , team TEXT
+  , military_branch TEXT
+  , military_era TEXT
+  , va_benefits TEXT
+  , dd214 TEXT
+  , speak_about_benefits TEXT
+  , comment TEXT
+ );
+ #I then imported data from our EHR into it's respected charts. 
+ 
 SELECT mrn, name, referral_date, referral_account, referral_physician FROM may_referrals WHERE referral_account = "Palliative Care of Lake Cumberland";
+#This allowed us to see how many of our hospice referrals came directly from our Palliative Care team during May.
 
 SELECT * FROM may_admits WHERE diagnosis GLOB 'C*';
+#This allowed us to see how many of our May Admits had a primary cancer diagnosis.
 
 SELECT AVG(dispo_day) FROM may_admits;
+#This allowed us to view the average disposition days for all May admits.
 
 SELECT mrn, name, diagnosis, military_branch FROM may_admits
 INNER JOIN va_tracking ON va_tracking.name = may_admits.name;
+#This allowed us to view diagnoses related to our VA patients. 
 
 SELECT * FROM may_referrals WHERE attending != "RYAN, CORY" AND attending != "Southard, Stephanie";
+#This allowed us to see which patients would not be followed by one of our medical directors. 
 
 SELECT * FROM may_admits WHERE current_benefit_period > 1;
+#This allowed us to see which patients were in a Medicare Benefit period beyond their 1st. 
 
 SELECT mrn, name, referral_date FROM may_referrals WHERE referral_date between '5/05/2023' AND '5/15/2023' ORDER BY referral_date DESC;
-
-SELECT referral_account FROM may_referrals WHERE referral_date = '5/25/2023';
+#This allowed us to view all referrals within a certain date range. 
 
 SELECT name, diagnosis FROM may_admits WHERE diagnosis LIKE 'J%';
-
 SELECT name, diagnosis FROM may_admits WHERE diagnosis LIKE '%neoplasm%';
+#These queries allowed us to view patients who had a primary respiratory diagnosis and those who has a neoplastic diagnosis. 
 
-SELECT count(distinct referral_account) FROM may_referrals; 
-
-SELECT referral_account FROM may_referrals GROUP BY referral_account;
+SELECT count(distinct referral_account) FROM may_referrals;
+#This shows how many distinct referral sources we encountered in the month of May. 
 
