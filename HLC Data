@@ -58,6 +58,18 @@ SELECT mrn, name, referral_date, referral_account, referral_physician FROM may_r
 SELECT * FROM may_admits WHERE diagnosis GLOB 'C*';
 #This allowed us to see how many of our May Admits had a primary cancer diagnosis.
 
+SELECT count(distinct diagnosis) FROM may_admits WHERE diagnosis GLOB 'C*'
+#How many types of cancer?
+
+SELECT count(diagnosis) FROM may_admits WHERE diagnosis LIKE '%C3%'
+#How many with Lung Cancer?
+
+SELECT count(diagnosis) FROM may_admits WHERE diagnosis LIKE 'G31%';
+#How many with Dementia?
+
+SELECT count(diagnosis), count(distinct referral_account) FROM may_admits INNER JOIN may_referrals ON may_admits.mrn = may_referrals.mrn WHERE diagnosis LIKE 'G3%';
+#How many dementia patients were referred from 
+
 SELECT AVG(dispo_day) FROM may_admits;
 #This allowed us to view the average disposition days for all May admits.
 
@@ -65,7 +77,9 @@ SELECT mrn, name, diagnosis, military_branch FROM may_admits
 INNER JOIN va_tracking ON va_tracking.name = may_admits.name;
 #This allowed us to view diagnoses related to our VA patients. 
 
-SELECT * FROM may_referrals WHERE attending != "RYAN, CORY" AND attending != "Southard, Stephanie";
+
+SELECT mrn, name, diagnosis, military_branch FROM may_admits
+INNER JOIN va_tracking ON va_tracking.name = may_admits.name;
 #This allowed us to see which patients would not be followed by one of our medical directors. 
 
 SELECT * FROM may_admits WHERE current_benefit_period > 1;
